@@ -49,6 +49,45 @@ class BigBang extends HTMLElement {
     // shadowRoot shields the web component from external styling, mostly
     let clone = template.content.cloneNode(true);
     this.root.append(clone);
+
+    //handling slots
+    let btnSlot = this.root.querySelector('p button slot');
+    let htmlSlot = btnSlot.assignedNodes()[0]; //assignedElements()
+
+    if (htmlSlot) {
+      btnSlot.addEventListener('slotchanged', (ev) => {
+        console.log(htmlSlot);
+      });
+
+      //handling events
+      btnSlot.parentElement.addEventListener('click', (ev) => {
+        //we want hello() or goodbye()
+        let action =
+          this.action && typeof window[this.action] === 'function'
+            ? window[this.action]
+            : this.defaultActionForBigBangButton;
+        // console.log(action);
+        action(ev);
+      });
+    } else {
+      btnSlot.parentElement.remove();
+    }
+  }
+  defaultActionForBigBangButton() {
+    console.log('Missing a VALID action attribute value');
+  }
+
+  //Web Components added or removed from page
+  connectedCallback() {
+    //when <big-bang> is added to the DOM/page
+    console.log('added to page');
+    if (this.color) {
+      this.color = 'cornflowerblue';
+    }
+  }
+  disconnectedCallback() {
+    //when <big-bang> is removed
+    console.log('removed from page');
   }
 
   // Attributes and Properties...
