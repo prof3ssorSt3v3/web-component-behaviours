@@ -55,7 +55,7 @@ class BigBang extends HTMLElement {
     let htmlSlot = btnSlot.assignedNodes()[0]; //assignedElements()
 
     if (htmlSlot) {
-      btnSlot.addEventListener('slotchanged', (ev) => {
+      btnSlot.addEventListener('slotchange', (ev) => {
         console.log(htmlSlot);
       });
 
